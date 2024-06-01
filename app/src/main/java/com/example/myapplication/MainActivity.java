@@ -71,4 +71,8 @@ public class MainActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+    public void playStop(View view){
+        if(mediaPlayer != null) mediaPlayer.stop();
+    }
 }
