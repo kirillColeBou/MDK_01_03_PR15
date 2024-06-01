@@ -23,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
         fileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/record.3gpp";
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        releasePlayer();
+        releaseRecorder();
+    }
+
     private void releaseRecorder(){
         if(mediaRecorder != null){
             mediaRecorder.release();
