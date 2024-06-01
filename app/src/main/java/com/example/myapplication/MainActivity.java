@@ -47,4 +47,8 @@ public class MainActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+    public void recordStop(View view){
+        if(mediaRecorder != null) mediaRecorder.stop();
+    }
 }
