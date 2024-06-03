@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private String fileName;
     private Button button;
-    private static final int REQUEST_CODE_SAVE_AUDIO = 1; // Используйте уникальные коды запросов
-    private static final int REQUEST_CODE_PICK_AUDIO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +77,11 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder.release();
             mediaRecorder = null;
             button.setEnabled(false);
-            openFilePicker();
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("audio/3gpp");
+            startActivityForResult(intent, 1);
         }
-    }
-
-    private void openFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("audio/3gpp");
-        startActivityForResult(intent, REQUEST_CODE_SAVE_AUDIO);
     }
 
     @Override
@@ -95,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            if (requestCode == REQUEST_CODE_SAVE_AUDIO) {
+            if (requestCode == 1) {
                 saveRecordingToFile(uri);
-            } else if (requestCode == REQUEST_CODE_PICK_AUDIO) {
+            } else if (requestCode == 2) {
                 playAudioFromUri(uri);
             }
         }
@@ -130,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("audio/3gpp");
-        startActivityForResult(intent, REQUEST_CODE_PICK_AUDIO);
+        startActivityForResult(intent, 2);
     }
 
     private void playAudioFromUri(Uri audioUri) {
